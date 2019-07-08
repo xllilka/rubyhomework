@@ -1,0 +1,91 @@
+#엑세스 실기 팁입니다.
+
+#유효성 검사 규칙
+-Len([고객코드])=5  : 고객코드는 반드시 5글자로 입력
+-Instr([고객코드],"")=0  : 고객코드에 공백 입력 불가능하게 지정
+
+
+'성별' 필드는 2가지 값만을 가질 수 있는 데이터 형식으로 설정
+: yes/no로 설정
+: 조회-텍스트 형태
+: 형식- ;[파랑]남;[빨강]여
+
+
+#추가쿼리
+not in (select 필드명 from 테이블)
+
+#업데이트 쿼리
+<제품>테이블에 없는 '제품번호'는 <구매>테이블에서 제거하는 업데이트 쿼리를 제작하라
+필드 : 구매번호 / 테이블 : 구매 / 업데이트 : null / 조건 : not in (select 제품번호 from 제품)
+
+
+#입력 및 수정 기능 구현
+폼이 가동되면 커서가 어떤 컨트롤에 나타나 있도록 속성 설정하려면?
+: 탭 인덱스 = 0 으로 두기
+
+오름차순 : 이름 asc, 급여 desc
+
+'cmd새레코드입력' 버튼을 클릭하면 새 데이터를 입력할 수 있도록 하는 명령어
+: gotorecord
+<프로시저에서> --> docmd.gotorecord acdataform, "사원별근태정보", acnewrecord
+
+폼이 가동되면 '상품정보' 테이블이 레코드원본으로 설정되도록
+: me.recordsource = "select * from 상품정보 where 조건"
+
+
+#정렬 방법
+me.Orderby = "필드명 정렬방식"
+me.orderbyon = true
+asc / desc
+
+#recordsetclone, bookmark, findfirst
+me.recordsetclone.findfirst "조건='" & txt조건 & "'"
+: 현재 폼 레코드 복사해서 조건에 맞는 첫번째 자료를 찾는다.
+me.bookmark = me.recordsetclone.bookmark
+
+---> 이거 그냥 두 줄 외우면 됨
+
+
+
+#쿼리
+매개변수 쿼리 - 제품명 필드 조건에 [제품명을 입력하세요]
+            일부라도 일치하는 자료 검색하고 싶으면 ㅣike "*" & [부서명을 입력하시오] & "*"
+
+
+추가 쿼리 - 추가쿼리는 실행버튼 1번만 눌러야 함!
+
+조건으로 줄 때는 요약 : 조건
+(조건으로 지정하면 필드가 쿼리에 나오지 않음)
+
+왼쪽 정렬 : 형식말고 & "월" 사용
+오른쪽 정렬 : 형식에서 #"월"
+
+엑세스에서는 ()쓰지마 ex) msgbox "현재날짜는" & date & "입니다."
+
+
+#조회 및 출력 기능 구현
+머리글은 구역전/ 바닥글은 구역후
+
+
+쿼리 만드는 거 확실히 하고 가자!
+
+조건 입력하는 거 확실히 하고 가자!
+
+
+me.recordsetclone.findfirst "사번 ='" & txt사번 & "'"
+me.bookmark=me.recordsetclone.bookmark
+
+me.recordsetclone.findfirst "조건"
+me.bookmark = me.recordsetclone.bookmark
+
+
+
+me.recordsetclone.findfirst "조건"
+me.bookmark = me.recordsetclone.bookmark
+
+
+me.filter = "학번 like '*" & txt학번 & "*'"
+me.filteron = true
+
+me.recordsetclone.findfirst "조건"
+me.bookmark = me.recordsetclone.bookmark
